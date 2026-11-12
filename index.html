@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mami // Back-End & Sistem Geliştirici</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .glow-bg {
+      animation: pulseGlow 8s ease-in-out infinite;
+    }
+    .glass-card {
+      background: rgba(18, 22, 34, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc 0%, #38bdf8 50%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-border {
+      position: relative;
+    }
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.6), rgba(56, 189, 248, 0.2), rgba(52, 211, 153, 0.4));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-[#e2e8f0] font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Ambient Glow Effects -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-40 left-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl glow-bg"></div>
+    <div class="absolute top-1/3 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl glow-bg" style="animation-delay: 3s;"></div>
+    <div class="absolute bottom-10 left-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl glow-bg" style="animation-delay: 5s;"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- AI Slop Humorous Top Banner -->
+    <aside aria-label="Disclaimer" class="relative z-50 bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-indigo-500/20 border-b border-amber-500/30 px-4 py-2.5 text-center text-xs sm:text-sm text-amber-200/90 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto flex items-center justify-center gap-2">
+        <span class="inline-block animate-pulse">🤖</span>
+        <span>
+          <strong class="text-amber-300 font-bold">Evet, bu bir AI slop</strong> ve <strong class="text-white font-semibold">hayır, bu tabii ki böyle kalmayacak :D</strong> <span class="hidden sm:inline text-amber-200/70">(Şimdilik idare edin, el emeği sürüm yolda...)</span>
+        </span>
+      </div>
+    </aside>
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0b0f19]/80 border-b border-white/5">
+      <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-2 group">
+          <span class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-mono text-sm font-bold group-hover:scale-105 transition-transform">
+            m_
+          </span>
+          <span class="font-bold tracking-tight text-white group-hover:text-indigo-300 transition-colors">
+            enaimami<span class="text-indigo-400">.dev</span>
+          </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm text-slate-300">
+          <a href="#hakkimda" class="hover:text-white transition-colors">Hakkımda</a>
+          <a href="#projeler" class="hover:text-white transition-colors">Öne Çıkan Projeler</a>
+          <a href="#felsefe" class="hover:text-white transition-colors">Felsefe & Yaklaşım</a>
+          <a href="#teknolojiler" class="hover:text-white transition-colors">Teknoloji</a>
+          <a href="#countdown" class="hover:text-white transition-colors">2045 Hedefi</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Hireable / Açık
+          </span>
+          <a href="https://github.com/enaimami" target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all hover:scale-[1.02]">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="max-w-6xl mx-auto px-6 pt-20 pb-16 md:pt-28 md:pb-24 text-center relative">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-6">
+        <span class="text-indigo-400 font-mono">#</span>
+        <span>Back-End & Sistem Geliştirici • 42 Kocaeli Öğrencisi</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight sm:leading-tight">
+        "Çalışmaz" denileni ayağa kaldıran, <br class="hidden sm:inline" />
+        <span class="gradient-text">el emeği & merak odaklı</span> kodlar.
+      </h1>
+
+      <p class="mt-6 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        Sadece basit bir giriş-kayıt formu hevesiyle başlayan yolculuk; <strong class="text-slate-200">C++20 & Qt6</strong> yerel masaüstü uygulamalarına, <strong class="text-slate-200">Hermes JS bundle</strong> tersine mühendisliğine ve sıfır bağımlılıklı algoritmalara dönüştü.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="#projeler"
+           class="px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          Projeleri Keşfet ↓
+        </a>
+        <a href="#iletisim"
+           class="px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700/60 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          İletişime Geç ☕
+        </a>
+      </div>
+
+      <!-- Quick Highlights Grid -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+        <div class="glass-card rounded-xl p-4 transition-all">
+          <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Tersine Mühendislik</div>
+          <div class="mt-1 font-bold text-white text-base">APK & API Keşfi</div>
+          <div class="text-xs text-slate-400 mt-1">Belgesiz KentKart uçlarını Hermes paketinden deşifre etti.</div>
+        </div>
+        <div class="glass-card rounded-xl p-4 transition-all">
+          <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Native & Performans</div>
+          <div class="mt-1 font-bold text-white text-base">%0 Bloatware</div>
+          <div class="text-xs text-slate-400 mt-1">Electron/Tauri yok; saf C++20, Qt6 ve Kirigami.</div>
+        </div>
+        <div class="glass-card rounded-xl p-4 transition-all">
+          <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Algoritmik Altyapı</div>
+          <div class="mt-1 font-bold text-white text-base">Saf Python & BFS</div>
+          <div class="text-xs text-slate-400 mt-1">Harici kütüphanesiz, Pac-Man uyumlu labirent mimarisi.</div>
+        </div>
+        <div class="glass-card rounded-xl p-4 transition-all">
+          <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Dayanıklılık</div>
+          <div class="mt-1 font-bold text-white text-base">42 Kocaeli Çeliği</div>
+          <div class="text-xs text-slate-400 mt-1">42 Kocaeli öğrencisi: "Beni bir C pointer hataları, bir de kendim yıldırabilirim."</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Story Section -->
+    <section id="hakkimda" class="py-16 border-t border-white/5 bg-[#0e1424]/40">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="glass-card gradient-border rounded-2xl p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 font-mono text-xl">🛠️</span>
+            <div>
+              <h2 class="text-2xl font-bold text-white">Hikaye & Yaklaşım</h2>
+              <p class="text-xs text-slate-400">Klişe CV jargonlarından arındırılmış gerçek deneyim.</p>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p>
+              Ben <strong class="text-white">Mami</strong>. Şu anda <strong class="text-indigo-300">42 Kocaeli</strong> bünyesinde yazılım eğitimime devam eden, Selçuklu MTAL mezunu ve bu sektörde görebileceğiniz en merak güdümlü geliştiricilerden biriyim.
+              Standart bir yazılımcının <span class="text-rose-400 italic">"asla çalışmaz, uğraşma"</span> deyip geçeceği şeyleri denerim. Bazen patlar, bazen saç baş yolarım ama günün sonunda o kodu ayağa kaldırırım.
+            </p>
+            <p>
+              <strong class="text-indigo-300">42 Kocaeli & Piscine Hikayesi:</strong> Havuzda (Piscine) ikinci olarak 42 Kocaeli yolculuğuma başladım. Sonra havuz birincisi arkadaşın kodları yapay zekaya yazdırdığı anlaşıldı; biz ise el emeği göz nuru, bellek sızıntılarıyla (valgrind) boğuşarak devam ettik. Bu sayede bellek mimarisini, pointerları ve derin sistem dinamiklerini doğrudan sindirdim.
+            </p>
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300 text-xs sm:text-sm">
+              <span class="text-emerald-400 font-semibold">💡 İK & Takım Liderleri İçin Net Özet:</span>
+              Hazır şablon kopyalamaktan ibaret bir profil değil; dokümantasyonu olmayan sistemleri kurcalayıp çalışan ürüne çevirebilen, sistem kaynağını israf etmeyen ve problem çözmekten sahiden keyif alan bir geliştirici adayı.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projeler" class="py-20 max-w-6xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Portföy Vitrini</span>
+          <h2 class="text-3xl font-extrabold text-white mt-2">Öne Çıkan Gerçek Projeler</h2>
+        </div>
+        <p class="text-sm text-slate-400 mt-2 md:mt-0 max-w-md">
+          Her biri hazır kütüphane yığmak yerine, sıfırdan mantık ve ihtiyaç üzerine inşa edilmiş işler.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Project 1: Kocaeli Ulaşım Masaüstü -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col justify-between transition-all group">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">C++20</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Qt 6 & QML</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Kirigami</span>
+              </div>
+              <span class="text-xs font-mono text-slate-500">Masaüstü</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white group-hover:text-sky-300 transition-colors">
+              Kocaeli Ulaşım — Masaüstü (KDE Plasma)
+            </h3>
+            
+            <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+              Kocaeli toplu taşıma araçlarını takip etmek için yazılmış, hafif ve yerel masaüstü uygulaması. 
+              <strong class="text-slate-100">Electron ya da Tauri yok.</strong> Sistem kaynağını sömürmez, doğrudan Qt Quick & Kirigami ile native çalışır.
+            </p>
+
+            <div class="mt-4 p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400 space-y-1.5">
+              <div class="font-semibold text-slate-300">🔍 Tersine Mühendislik Başarısı:</div>
+              <div>• KentKart'ın resmî API dokümanı yoktu.</div>
+              <div>• Android APK'sındaki Hermes JS bundle paketini inceleyerek servis uçlarını keşfetti.</div>
+              <div>• Sunucuyu yormayan 20sn'lik nazik sorgu döngüsü tasarladı.</div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-mono">Repo: kocaeli-ulasim-masaustu</span>
+            <a href="https://github.com/enaimami/kocaeli-ulasim-masaustu" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-400 hover:text-sky-300 transition-colors">
+              Kaynak Kodu İncele 
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 2: A-Maze-ing -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col justify-between transition-all group">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">Python 3.10+</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">42 Kocaeli Curriculum</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Zero-Dependency</span>
+              </div>
+              <span class="text-xs font-mono text-slate-500">Algoritma</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              A-Maze-ing — Labirent Motoru
+            </h3>
+            
+            <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+              Tek bir üçüncü parti paket içermeyen, tamamen saf Python standart kütüphanesi ile yazılmış algoritmik labirent üretici ve çözücü.
+            </p>
+
+            <div class="mt-4 p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400 space-y-1.5">
+              <div class="font-semibold text-slate-300">⚙️ Mimari Özellikleri:</div>
+              <div>• Labirent içine görünür <strong class="text-amber-300 font-mono">"42"</strong> deseni gizler.</div>
+              <div>• BFS (Breadth-First Search) algoritması ile en kısa yolu çözer.</div>
+              <div>• Hem tam labirent (Perfect Maze) hem de Pac-Man tarzı oynanabilir mod üretir.</div>
+              <div>• Dağıtılabilir bağımsız <code class="text-indigo-300">mazegen</code> wheel paketi.</div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-mono">Repo: a-maze-ing</span>
+            <a href="https://github.com/enaimami/a-maze-ing" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-400 hover:text-amber-300 transition-colors">
+              Kaynak Kodu İncele 
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 3: 42 Piscine Arşivi -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col justify-between transition-all group">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">C Dili</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-500/10 text-slate-300 border border-slate-500/20">Low-Level</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-orange-500/10 text-orange-400 border border-orange-500/20">Memory Management</span>
+              </div>
+              <span class="text-xs font-mono text-slate-500">Havuz</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white group-hover:text-rose-300 transition-colors">
+              42 Piscine Arşivi
+            </h3>
+            
+            <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+              "Buraya lanet havuz projelerini koyuyorum" başlığıyla açılan, C dilinde pointer aritmetiği, bellek blokları ve algoritma temellerinin atıldığı el emeği repo.
+            </p>
+
+            <div class="mt-4 p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+              Pointer hatalarıyla, segfault'larla ve sınır durumlarıyla tek tek yüzleşilmiş; geliştiricinin sabır ve algoritma direncini belgeleyen saf temel.
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-mono">Repo: i-hope-piscine-will-never-end</span>
+            <a href="https://github.com/enaimami/i-hope-piscine-will-never-end" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors">
+              Kaynak Kodu İncele 
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 4: Node.js & Backend -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 flex flex-col justify-between transition-all group">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Node.js</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Backend API</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">JavaScript</span>
+              </div>
+              <span class="text-xs font-mono text-slate-500">Back-End</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white group-hover:text-emerald-300 transition-colors">
+              Node.js & Servis Denemeleri
+            </h3>
+            
+            <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+              Modern web servisleri, API mimarisi ve mikro uç noktalar. "Gerçekten bir deneme, umarım 20 yıl sonra geri dönmem" notuyla başlayan ve 2045 taahhüdüne dönüşen kült macera.
+            </p>
+
+            <div class="mt-4 p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+              Sunucu tarafında asenkron akışlar, veri doğrulama ve servis mantığı üzerine sürekli geliştirilen pratikler.
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-mono">Repo: nodejsdeneme</span>
+            <a href="https://github.com/enaimami/nodejsdeneme" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+              Kaynak Kodu İncele 
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Philosophy & Comparison Section -->
+    <section id="felsefe" class="py-16 bg-[#0e1424]/50 border-y border-white/5">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <span class="text-xs font-semibold text-sky-400 uppercase tracking-widest">Neden Farklı?</span>
+          <h2 class="text-3xl font-extrabold text-white mt-2">Kalıplar vs. Gerçek Mühendislik Merakı</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 rounded-2xl bg-rose-500/5 border border-rose-500/20">
+            <div class="flex items-center gap-2 text-rose-400 font-semibold text-sm mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              Sıradan / Yapay Yaklaşım
+            </div>
+            <ul class="space-y-3 text-sm text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400">×</span>
+                <span>Belgesi olmayan bir API gördüğünde "servis desteklemiyor" deyip bırakmak.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400">×</span>
+                <span>En ufak masaüstü ihtiyacında arkasına 200MB Chromium gömmek (Electron alışkanlığı).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-rose-400">×</span>
+                <span>Tüm kodu körü körüne yapay zekaya ürettirip arka planda ne döndüğünü bilmemek.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-emerald-500/5 border border-emerald-500/20">
+            <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Mami'nin Çalışma Tarzı
+            </div>
+            <ul class="space-y-3 text-sm text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>APK'yı parçalayıp Hermes paketini okuyarak API uçlarını bizzat ortaya çıkarmak.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>C++20, Qt6 ve Kirigami ile hafif, hızlı ve donanıma saygılı yerel çözümler üretmek.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>Pointer hatalarını bizzat ayıklayıp sistemin çalışma mantığını iliklerine kadar kavramak.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="teknolojiler" class="py-16 max-w-5xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">Araç Kutusu</span>
+        <h2 class="text-2xl font-bold text-white mt-1">Teknoloji Sepeti</h2>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">Node.js</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">C++20</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">Qt 6 & QML</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">C Dili (Piscine)</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">Python 3</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">PHP</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">C#</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">REST APIs & Reverse Eng</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">Linux & Bash</span>
+        <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-slate-200">Git & GitHub</span>
+      </div>
+    </section>
+
+    <!-- 2045 Countdown Easter Egg -->
+    <section id="countdown" class="py-16 max-w-4xl mx-auto px-6">
+      <div class="glass-card gradient-border rounded-2xl p-8 text-center relative overflow-hidden">
+        <div class="inline-block px-3 py-1 rounded-full text-xs font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-3">
+          nodejsdeneme // Geleceğe Taahhüt
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold text-white">
+          "2045 Ocak 1 gününde burada olun. Repoya commit atacağım."
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-lg mx-auto">
+          Şaka gibi başlayan ama kararlılık simgesine dönüşen o meşhur commit anına kalan süre:
+        </p>
+
+        <!-- Countdown Display -->
+        <div class="grid grid-cols-4 gap-3 sm:gap-4 max-w-md mx-auto mt-6">
+          <div class="bg-black/40 rounded-xl p-3 border border-white/10">
+            <div id="c-days" class="text-2xl sm:text-3xl font-extrabold text-indigo-400 font-mono">--</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Gün</div>
+          </div>
+          <div class="bg-black/40 rounded-xl p-3 border border-white/10">
+            <div id="c-hours" class="text-2xl sm:text-3xl font-extrabold text-sky-400 font-mono">--</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Saat</div>
+          </div>
+          <div class="bg-black/40 rounded-xl p-3 border border-white/10">
+            <div id="c-minutes" class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">--</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Dakika</div>
+          </div>
+          <div class="bg-black/40 rounded-xl p-3 border border-white/10">
+            <div id="c-seconds" class="text-2xl sm:text-3xl font-extrabold text-rose-400 font-mono">--</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Saniye</div>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 mt-4 italic">
+          O güne kadar durmak yok; kodlamaya, yeni sistemler denemeye devam.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <section id="iletisim" class="py-16 border-t border-white/5 bg-[#0b0f19]">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-extrabold text-white">Birlikte Bir Şeyler İnşa Edelim</h2>
+        <p class="text-sm text-slate-400 mt-3 max-w-md mx-auto">
+          İster backend projesi, ister native sistem yazılımı, isterse sabaha karşı 03:00'te çözülecek bir bug.
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm font-mono text-slate-200">
+            <span>1terabyterma@gmail.com</span>
+            <button onclick="navigator.clipboard.writeText('1terabyterma@gmail.com'); alert('E-posta kopyalandı!');"
+                    title="Kopyala" class="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </button>
+          </div>
+
+          <a href="mailto:1terabyterma@gmail.com"
+             class="px-5 py-2.5 rounded-xl font-medium text-sm bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-sm">
+            Mail Gönder ✉️
+          </a>
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+          <p>© 2026 Mami (enaimami). 42 Kocaeli öğrencisi, Selçuklu MTAL mezunu, bağımsız geliştirici.</p>
+          <div class="flex items-center gap-4">
+            <a href="https://github.com/enaimami" target="_blank" class="hover:text-slate-300 transition-colors">GitHub</a>
+            <span>•</span>
+            <span class="text-emerald-500">Node.js + C++20 + C</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Countdown Script -->
+  <script>
+    function updateCountdown() {
+      const target = new Date('2045-01-01T00:00:00Z').getTime();
+      const now = new Date().getTime();
+      const diff = target - now;
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('c-days').textContent = days.toLocaleString();
+        document.getElementById('c-hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('c-minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('c-seconds').textContent = seconds.toString().padStart(2, '0');
+      }
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
